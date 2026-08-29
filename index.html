@@ -143,9 +143,12 @@
   .arq-cap { margin-top: 10px; font-size: 11.5px; font-style: italic; color: var(--gray); line-height: 1.5; }
   .arq-arrow { text-align: center; color: var(--blue); font-size: 20px; line-height: 1; padding: 8px 0; }
   .plat { background: var(--navy); padding: 14px 16px; }
-  .plat-label { font-size: 10.5px; letter-spacing: 1.5px; font-weight: 700; color: var(--ice); margin-bottom: 10px; }
-  .plat-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .plat-label { font-size: 10.5px; letter-spacing: 1.5px; font-weight: 700; color: var(--ice); margin-bottom: 6px; }
+  .layer { display: flex; align-items: center; gap: 8px; padding: 9px 0; flex-wrap: wrap; }
+  .layer + .layer { border-top: 1px solid rgba(220,230,241,.25); }
+  .layer-tag { flex: 0 0 100px; font-size: 9.5px; letter-spacing: 1px; font-weight: 700; color: var(--ice); opacity: .85; }
   .mod { background: rgba(255,255,255,.13); border: 1px solid rgba(220,230,241,.45); color: #fff; padding: 7px 12px; font-size: 11.5px; font-weight: 700; }
+  .layer.base .mod { background: rgba(255,255,255,.26); }
   .apos { margin-top: 10px; font-size: 11.5px; color: var(--gray); }
   .apos s { color: var(--gray); }
 
@@ -323,12 +326,29 @@
         <div class="arq-head">O DESTINO <span>· a plataforma única, fase a fase</span></div>
         <div class="plat">
           <div class="plat-label">PLATAFORMA ESFERA</div>
-          <div class="plat-row">
-            <div class="mod">Cadastro único do médico</div>
-            <div class="mod">Escala + app próprio</div>
+          <div class="layer">
+            <div class="layer-tag">CANAIS</div>
+            <div class="mod">App do médico</div>
+            <div class="mod">WhatsApp</div>
+            <div class="mod">Painel da operação</div>
+          </div>
+          <div class="layer">
+            <div class="layer-tag">MÓDULOS</div>
+            <div class="mod">Escala</div>
             <div class="mod">Financeiro</div>
             <div class="mod">Comercial + clientes</div>
-            <div class="mod">Dashboards + agente de IA</div>
+          </div>
+          <div class="layer">
+            <div class="layer-tag">INTELIGÊNCIA</div>
+            <div class="mod">Dashboards</div>
+            <div class="mod">Agente de IA</div>
+            <div class="mod">Match vaga × médico</div>
+          </div>
+          <div class="layer base">
+            <div class="layer-tag">BASE ÚNICA</div>
+            <div class="mod">Cadastro único do médico</div>
+            <div class="mod">Plantões</div>
+            <div class="mod">Contratos e tarifas</div>
           </div>
         </div>
         <div class="apos">Aposentados, um por fase: <s>app de escala de terceiro</s> · <s>CRM de terceiro</s> · <s>planilhas</s></div>
