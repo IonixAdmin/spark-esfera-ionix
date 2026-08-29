@@ -127,6 +127,28 @@
   .tl-seg.s2 { background: var(--zebra); border: 2px dashed var(--border); }
   .tl-seg.s3 { background: var(--card); border: 2px dashed var(--border); }
 
+  /* arquitetura em três estágios */
+  .arq-stage { background: var(--card); padding: 16px 18px; }
+  .arq-head { font-size: 11px; letter-spacing: 1px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .arq-head span { font-weight: 400; color: var(--gray); letter-spacing: 0; }
+  .arq-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .sys { background: #fff; border: 1.5px solid var(--border); padding: 8px 12px; font-size: 11.5px; line-height: 1.4; }
+  .sys b { display: block; color: var(--navy); font-size: 12px; }
+  .sys.core { background: var(--navy); border-color: var(--navy); color: var(--ice); }
+  .sys.core b { color: #fff; }
+  .sys.fica { border-style: dashed; color: var(--gray); }
+  .sys.fica b { color: var(--gray); }
+  .sep { color: var(--border); font-size: 14px; font-weight: 700; }
+  .flecha { color: var(--blue); font-size: 15px; font-weight: 700; }
+  .arq-cap { margin-top: 10px; font-size: 11.5px; font-style: italic; color: var(--gray); line-height: 1.5; }
+  .arq-arrow { text-align: center; color: var(--blue); font-size: 20px; line-height: 1; padding: 8px 0; }
+  .plat { background: var(--navy); padding: 14px 16px; }
+  .plat-label { font-size: 10.5px; letter-spacing: 1.5px; font-weight: 700; color: var(--ice); margin-bottom: 10px; }
+  .plat-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .mod { background: rgba(255,255,255,.13); border: 1px solid rgba(220,230,241,.45); color: #fff; padding: 7px 12px; font-size: 11.5px; font-weight: 700; }
+  .apos { margin-top: 10px; font-size: 11.5px; color: var(--gray); }
+  .apos s { color: var(--gray); }
+
   .bonus { margin-top: 24px; background: var(--zebra); padding: 16px 20px; font-size: 13.5px; line-height: 1.6; border-left: 5px solid var(--blue); }
   .bonus .btag { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 1px; color: #fff; background: var(--blue); padding: 2px 10px; border-radius: 999px; margin-bottom: 8px; }
   .bonus b { color: var(--navy); }
@@ -267,6 +289,52 @@
 
   <!-- ================= O ROADMAP ================= -->
   <div class="tab-section" id="roadmap">
+
+    <section class="b">
+      <h2 class="rv">A arquitetura <span>· de onde saímos, por onde começamos, onde chegamos</span></h2>
+
+      <div class="arq-stage rv">
+        <div class="arq-head">HOJE <span>· quatro softwares que não conversam</span></div>
+        <div class="arq-row">
+          <div class="sys"><b>App de escala</b>escala + app do médico</div><span class="sep">×</span>
+          <div class="sys"><b>CRM</b>captação de médicos e clientes</div><span class="sep">×</span>
+          <div class="sys"><b>WhatsApp</b>médicos da base</div><span class="sep">×</span>
+          <div class="sys"><b>Planilhas</b>fechamento e caixa</div>
+        </div>
+        <div class="arq-cap">O dado atravessa por exportação e digitação. Um dia de trabalho por fechamento, duas conferências por pagamento.</div>
+      </div>
+
+      <div class="arq-arrow rv">↓</div>
+
+      <div class="arq-stage rv">
+        <div class="arq-head">PRIMEIROS PASSOS <span>· meses 1 a 3, este plano</span></div>
+        <div class="arq-row">
+          <div class="sys"><b>App de escala</b>fica onde está</div><span class="flecha">→</span>
+          <div class="sys core"><b>Plataforma Esfera · financeiro</b>conciliação, acordos, exceções, demonstrativo</div><span class="flecha">→</span>
+          <div class="sys"><b>Contabilidade</b>recebe pronto</div>
+          <div class="sys fica"><b>CRM e WhatsApp</b>seguem como estão</div>
+        </div>
+        <div class="arq-cap">A plataforma nasce pelo financeiro: lê o que o app de escala exporta e entrega o fechamento pronto. A planilha sai do caminho.</div>
+      </div>
+
+      <div class="arq-arrow rv">↓</div>
+
+      <div class="arq-stage rv">
+        <div class="arq-head">O DESTINO <span>· a plataforma única, fase a fase</span></div>
+        <div class="plat">
+          <div class="plat-label">PLATAFORMA ESFERA</div>
+          <div class="plat-row">
+            <div class="mod">Cadastro único do médico</div>
+            <div class="mod">Escala + app próprio</div>
+            <div class="mod">Financeiro</div>
+            <div class="mod">Comercial + clientes</div>
+            <div class="mod">Dashboards + agente de IA</div>
+          </div>
+        </div>
+        <div class="apos">Aposentados, um por fase: <s>app de escala de terceiro</s> · <s>CRM de terceiro</s> · <s>planilhas</s></div>
+        <div class="arq-cap">Um cadastro só, o plantão como unidade que atravessa tudo, e o dado de volta na mão da Esfera.</div>
+      </div>
+    </section>
 
     <section class="b">
       <h2 class="rv">A plataforma própria <span>· depois dos 3 meses, em duas fases</span></h2>
