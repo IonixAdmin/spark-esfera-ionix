@@ -101,6 +101,14 @@
   /* ciclo vivo */
   .fluxo.on .chip.viva { box-shadow: 0 0 0 3px rgba(79,129,189,.35); transform: translateY(-2px); }
 
+  /* por que a ionix */
+  .stat.menor { font-size: 32px; line-height: 1.2; padding: 10px 0 2px; }
+  .socios { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 22px; }
+  .socio { background: var(--card); padding: 20px 22px; }
+  .socio b { display: block; color: var(--navy); font-size: 15px; }
+  .socio .cargo { font-size: 11px; letter-spacing: 1px; font-weight: 700; color: var(--blue); margin: 2px 0 10px; }
+  .socio p { font-size: 13px; line-height: 1.55; }
+
   .evidencia { margin-top: 14px; background: var(--navy); color: var(--ice); padding: 18px 22px; font-size: 14px; line-height: 1.6; }
   .evidencia b { color: #fff; }
 
@@ -205,7 +213,7 @@
   .foot-base { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--ice); font-size: 11.5px; color: var(--gray); line-height: 1.6; }
 
   @media (max-width: 720px) {
-    .teses, .split, .ops, .invest { grid-template-columns: 1fr; }
+    .teses, .split, .ops, .invest, .socios { grid-template-columns: 1fr; }
     .tl { flex-direction: column; }
     .tabs { display: flex; overflow-x: auto; }
     .tab-btn { font-size: 12px; padding: 10px 14px; }
@@ -243,7 +251,8 @@
     <button class="tab-btn active" data-tab="desafio"><span class="n">1</span>O desafio</button>
     <button class="tab-btn" data-tab="meses"><span class="n">2</span>Os próximos 3 meses</button>
     <button class="tab-btn" data-tab="roadmap"><span class="n">3</span>O roadmap</button>
-    <button class="tab-btn" data-tab="investimento"><span class="n">4</span>O investimento</button>
+    <button class="tab-btn" data-tab="porque"><span class="n">4</span>Por que a Ionix</button>
+    <button class="tab-btn" data-tab="investimento"><span class="n">5</span>O investimento</button>
   </nav>
 
   <!-- ================= O DESAFIO ================= -->
@@ -285,7 +294,7 @@
       </div>
       <div class="linha rv"><b>Nada muda no core nesta fase:</b> aplicativo de escala e contabilidade ficam onde estão.</div>
       <div class="evidencia rv"><b>Evidência, não hipótese:</b> reconstruímos um fechamento real da Esfera por regra, em segundos. Julgamento humano só na fila de exceções.</div>
-      <div class="next rv"><button data-next="meses"><span class="passo">CONTINUAR · ETAPA 2 DE 4</span>Os próximos 3 meses →</button></div>
+      <div class="next rv"><button data-next="meses"><span class="passo">CONTINUAR · ETAPA 2 DE 5</span>Os próximos 3 meses →</button></div>
     </section>
 
   </div>
@@ -341,7 +350,7 @@
         </div>
       </div>
 
-      <div class="next rv"><button data-next="roadmap"><span class="passo">CONTINUAR · ETAPA 3 DE 4</span>O roadmap →</button></div>
+      <div class="next rv"><button data-next="roadmap"><span class="passo">CONTINUAR · ETAPA 3 DE 5</span>O roadmap →</button></div>
     </section>
 
   </div>
@@ -461,7 +470,55 @@
           <p>A Esfera triplicou em um ano e meio e vai continuar mudando. <b>Cada fase é dimensionada ao fim da anterior</b>, com o que a operação ensinou: o plano acompanha o negócio, não o contrário.</p>
         </div>
       </div>
-      <div class="next rv"><button data-next="investimento"><span class="passo">CONTINUAR · ETAPA 4 DE 4</span>O investimento →</button></div>
+      <div class="next rv"><button data-next="porque"><span class="passo">CONTINUAR · ETAPA 4 DE 5</span>Por que a Ionix →</button></div>
+    </section>
+
+  </div>
+
+  <!-- ================= POR QUE A IONIX ================= -->
+  <div class="tab-section" id="porque">
+
+    <section class="b">
+      <h2 class="rv">Por que a Ionix <span>· quem entrega e o que já entregamos</span></h2>
+      <div class="linha rv"><b>A consultoria que executa.</b> O que vendemos é código rodando em produção, não apresentação: quem esteve nas reuniões com a Esfera é quem assina a entrega.</div>
+      <div class="socios rv">
+        <div class="socio">
+          <b>Vinicius Zilinski</b>
+          <div class="cargo">FOUNDER</div>
+          <p>Engenheiro de produção pela USP, com MBAs em Digital Business e em Data Science &amp; IA. Ex-KPMG. Conduz pessoalmente o diagnóstico, o protótipo e a entrega da Esfera.</p>
+        </div>
+        <div class="socio">
+          <b>Oliver Cunningham</b>
+          <div class="cargo">SÓCIO</div>
+          <p>Trajetória internacional em grandes consultorias; foi Chairman de Inovação da KPMG Global. É dele a leitura que desenhou este projeto na primeira conversa: construir a camada que falta, não outro ERP.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="b">
+      <h2 class="rv">Histórias parecidas com a da Esfera <span>· setores diferentes, o mesmo padrão</span></h2>
+      <div class="teses">
+        <div class="tese rv">
+          <div class="stat menor">R$ 600 mil</div>
+          <div class="statlabel">gastos tentando adaptar um ERP de mercado, antes da Ionix</div>
+          <h3>Distribuidora nacional de filmes</h3>
+          <p>Chegou com o mesmo dilema da Esfera: sistema de mercado que não dá aderência à operação. Hoje constrói conosco, passo a passo, <b>os sistemas próprios do negócio</b>.</p>
+        </div>
+        <div class="tese rv">
+          <div class="stat menor">45 → 5 min</div>
+          <div class="statlabel">na análise que guia a operação, antes feita à mão</div>
+          <h3>Operador de comércio exterior</h3>
+          <p>47 planilhas viraram <b>uma base única com agentes de IA</b>, respondendo em tempo real o que antes levava até dois dias.</p>
+        </div>
+        <div class="tese rv">
+          <div class="stat menor">1h30 → 7 min</div>
+          <div class="statlabel">no método que é o coração do negócio, agora como software</div>
+          <h3>Líder em marketing de busca</h3>
+          <p>A metodologia que era o diferencial da casa virou <b>agente que executa de ponta a ponta</b>. O conhecimento não se diluiu: virou sistema.</p>
+        </div>
+      </div>
+      <div class="destino rv"><b>Mais de 30 projetos entregues</b>, de bancos e seguradoras a logística e agroindústria. Os nomes ficam fora desta página pela mesma discrição que a Esfera recebe de nós; as histórias completas, contamos na conversa.</div>
+      <div class="next rv"><button data-next="investimento"><span class="passo">CONTINUAR · ETAPA 5 DE 5</span>O investimento →</button></div>
     </section>
 
   </div>
