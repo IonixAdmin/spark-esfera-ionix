@@ -69,6 +69,38 @@
   .seta.volta { font-size: 20px; font-weight: 700; }
   .teses.modo { margin-top: 24px; }
 
+  /* jornada guiada */
+  .tab-btn .n { opacity: .5; font-weight: 400; margin-right: 7px; }
+  @keyframes fadeTab { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .tab-section.active { animation: fadeTab .4s ease; }
+  .next { margin-top: 34px; }
+  .next button { font-family: inherit; display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px;
+    background: var(--navy); color: #fff; border: 0; padding: 12px 28px; border-radius: 999px; font-size: 14px;
+    font-weight: 700; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+  .next button:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(23,54,93,.28); }
+  .next .passo { font-size: 9.5px; letter-spacing: 1.2px; font-weight: 700; color: var(--ice); opacity: .8; }
+  .next button.ghost { background: var(--card); color: var(--navy); border: 1.5px solid var(--border); }
+  .next button.ghost .passo { color: var(--gray); }
+
+  /* cards dos meses — cascata + detalhe expansível */
+  .onda:not(.on) .op { opacity: 0; transform: translateY(12px); }
+  .op.exp { cursor: pointer; padding-right: 34px; }
+  .op.exp::after { content: "+"; position: absolute; top: 11px; right: 13px; color: var(--blue); font-size: 16px;
+    font-weight: 700; line-height: 1; transition: transform .3s ease; }
+  .op.open::after { transform: rotate(45deg); }
+  .op:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .mais { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+  .mais > div { overflow: hidden; }
+  .mais p { margin-top: 9px; padding-top: 9px; border-top: 1px dashed var(--border); font-size: 12px; line-height: 1.55; color: var(--ink); }
+  .op.open .mais { grid-template-rows: 1fr; }
+
+  /* arquitetura — módulos em cascata */
+  .mod { transition: opacity .45s ease, transform .45s ease; }
+  .arq-stage:not(.on) .mod { opacity: 0; transform: translateY(6px); }
+
+  /* ciclo vivo */
+  .fluxo.on .chip.viva { box-shadow: 0 0 0 3px rgba(79,129,189,.35); transform: translateY(-2px); }
+
   .evidencia { margin-top: 14px; background: var(--navy); color: var(--ice); padding: 18px 22px; font-size: 14px; line-height: 1.6; }
   .evidencia b { color: #fff; }
 
@@ -82,7 +114,7 @@
   .onda h3 { font-size: 15px; letter-spacing: 1.5px; color: var(--navy); margin-bottom: 4px; }
   .onda .quando { font-size: 12px; font-style: italic; color: var(--gray); margin-bottom: 14px; }
   .ops { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .op { background: var(--card); padding: 13px 16px; transition: transform .25s ease; }
+  .op { background: var(--card); padding: 13px 16px; position: relative; transition: opacity .5s ease, transform .35s ease; }
   .op:hover { transform: translateY(-2px); }
   .onda.destaque-mes .op { background: var(--zebra); }
   .op b { display: block; color: var(--navy); font-size: 13px; margin-bottom: 3px; }
@@ -182,12 +214,19 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .rv, .chip, .seta { transition: none; opacity: 1; transform: none; }
+    .op, .mod { transition: none; }
+    .tab-section.active { animation: none; }
+    .fluxo.on .chip.viva { transform: none; box-shadow: none; }
     .bar { animation: none; }
   }
   @media print {
     .rv, .chip, .seta { opacity: 1 !important; transform: none !important; }
+    .onda .op, .plat .mod { opacity: 1 !important; transform: none !important; }
+    .mais { grid-template-rows: 1fr !important; }
+    .op.exp::after { display: none; }
+    .next { display: none; }
     .tabs { display: none; }
-    .tab-section { display: block !important; }
+    .tab-section { display: block !important; animation: none !important; }
   }
 </style>
 </head>
@@ -201,10 +240,10 @@
 
   <nav class="tabs rv">
     <span class="tab-thumb"></span>
-    <button class="tab-btn active" data-tab="desafio">O desafio</button>
-    <button class="tab-btn" data-tab="meses">Os próximos 3 meses</button>
-    <button class="tab-btn" data-tab="roadmap">O roadmap</button>
-    <button class="tab-btn" data-tab="investimento">O investimento</button>
+    <button class="tab-btn active" data-tab="desafio"><span class="n">1</span>O desafio</button>
+    <button class="tab-btn" data-tab="meses"><span class="n">2</span>Os próximos 3 meses</button>
+    <button class="tab-btn" data-tab="roadmap"><span class="n">3</span>O roadmap</button>
+    <button class="tab-btn" data-tab="investimento"><span class="n">4</span>O investimento</button>
   </nav>
 
   <!-- ================= O DESAFIO ================= -->
@@ -246,6 +285,7 @@
       </div>
       <div class="linha rv"><b>Nada muda no core nesta fase:</b> aplicativo de escala e contabilidade ficam onde estão.</div>
       <div class="evidencia rv"><b>Evidência, não hipótese:</b> reconstruímos um fechamento real da Esfera por regra, em segundos. Julgamento humano só na fila de exceções.</div>
+      <div class="next rv"><button data-next="meses"><span class="passo">CONTINUAR · ETAPA 2 DE 4</span>Os próximos 3 meses →</button></div>
     </section>
 
   </div>
@@ -254,15 +294,18 @@
   <div class="tab-section" id="meses">
 
     <section class="b">
-      <h2 class="rv">Os próximos 3 meses <span>· escopo acordado na reunião de 25/8</span></h2>
+      <h2 class="rv">Os próximos 3 meses <span>· escopo acordado na reunião de 25/8 · clique nos cartões para o detalhe</span></h2>
 
       <div class="onda m1 rv">
         <h3>MÊS 1 · PRESENÇA E MAPEAMENTO</h3>
         <div class="quando">a base: marca no ar e processo entendido</div>
         <div class="ops">
-          <div class="op"><b>Site e portfólio comercial no ar</b><p>A nova presença digital, falando com as duas pontas: médicos e contratantes.</p></div>
-          <div class="op"><b>Teste do protótipo pela equipe</b><p>Uso real pelo time da Esfera, com feedbacks registrados.</p></div>
-          <div class="op"><b>Mapeamento dos processos financeiros</b><p>O caminho do dado documentado, do plantão ao pagamento.</p></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Site e portfólio comercial no ar</b><p>A nova presença digital, falando com as duas pontas: médicos e contratantes.</p>
+            <div class="mais"><div><p>O site atual fala com um público só: o médico. O novo separa as duas jornadas, cada uma com seu caminho e seu canal de contato, e o portfólio comercial é refeito na mesma identidade, pronto para circular em propostas e licitações.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Teste do protótipo pela equipe</b><p>Uso real pelo time da Esfera, com feedbacks registrados.</p>
+            <div class="mais"><div><p>O protótipo já está no ar e a equipe usa com casos reais do dia a dia, sem parar a operação. Cada feedback vira ajuste registrado e versão nova, no mesmo ciclo que já rodou nas primeiras semanas.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Mapeamento dos processos financeiros</b><p>O caminho do dado documentado, do plantão ao pagamento.</p>
+            <div class="mais"><div><p>Documentamos com quem opera o caminho completo: do plantão no aplicativo de escala até o pagamento do médico e a prestação para a contabilidade. É o que garante que o software do mês 2 nasce do processo real, e não de suposição.</p></div></div></div>
         </div>
       </div>
 
@@ -270,11 +313,16 @@
         <h3>MÊS 2 · SOFTWARE REAL</h3>
         <div class="quando">o protótipo vira sistema em uso</div>
         <div class="ops">
-          <div class="op"><b>Conciliação por plantão</b><p>Cada plantão conferido por regra, ao centavo.</p></div>
-          <div class="op"><b>Acordos como eventos</b><p>À vista e adiantamento Pix registrados com valor, data e taxa.</p></div>
-          <div class="op"><b>Fila de exceções</b><p>Julgamento humano só onde a regra não decide.</p></div>
-          <div class="op"><b>Demonstrativo pronto</b><p>O pagamento sai do sistema, não da planilha.</p></div>
-          <div class="op"><b>Integrações</b><p>Entrada pelo relatório do aplicativo de escala, com API como evolução; saída padronizada para a contabilidade.</p></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Conciliação por plantão</b><p>Cada plantão conferido por regra, ao centavo.</p>
+            <div class="mais"><div><p>Horas registradas × tarifa vigente do contrato, plantão a plantão. Já fizemos esse teste com um fechamento real da Esfera: a regra reproduz o valor em segundos, e o trabalho manual fica só onde há decisão de verdade.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Acordos como eventos</b><p>À vista e adiantamento Pix registrados com valor, data e taxa.</p>
+            <div class="mais"><div><p>O que hoje é anotação na planilha vira registro no plantão certo, com valor, data e taxa. Cada acordo aparece automaticamente no fechamento: é isso que elimina o risco de pagar em dobro.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Fila de exceções</b><p>Julgamento humano só onde a regra não decide.</p>
+            <div class="mais"><div><p>Um valor combinado fora do padrão, uma troca de plantão: o que a regra não decide entra numa fila com todo o contexto na tela. A decisão continua com a equipe; o que sai é a caça ao dado.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Demonstrativo pronto</b><p>O pagamento sai do sistema, não da planilha.</p>
+            <div class="mais"><div><p>O demonstrativo sai por médico e por unidade, com acordos e descontos aplicados. Rodamos lado a lado com a planilha até os números baterem; só então ela sai do caminho.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Integrações</b><p>Entrada pelo relatório do aplicativo de escala, com API como evolução; saída padronizada para a contabilidade.</p>
+            <div class="mais"><div><p>Começamos lendo o relatório que o aplicativo de escala já exporta, sem depender de terceiros. A conexão direta por API fica como evolução natural, e a saída já nasce padronizada para a contabilidade.</p></div></div></div>
         </div>
       </div>
 
@@ -282,12 +330,18 @@
         <h3>MÊS 3 · USO E VISÃO</h3>
         <div class="quando">rodando de verdade, com a direção enxergando</div>
         <div class="ops">
-          <div class="op"><b>Acompanhamento com uso real</b><p>Fechamento do mês rodando no sistema, lado a lado com a operação.</p></div>
-          <div class="op"><b>Ajuste fino das regras</b><p>O que a prática revelar volta pro sistema como regra.</p></div>
-          <div class="op"><b>3 dashboards financeiros</b><p>Priorizados em conjunto com a diretoria, configuráveis sobre a base.</p></div>
-          <div class="op"><b>Primeira visão de agente de IA</b><p>Perguntas em linguagem natural sobre a operação: plantões, pagamentos e exceções, respondidos direto da base.</p></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Acompanhamento com uso real</b><p>Fechamento do mês rodando no sistema, lado a lado com a operação.</p>
+            <div class="mais"><div><p>Não é treinamento em sala: é o fechamento do mês rodando dentro do sistema, conosco ao lado da equipe. As dúvidas aparecem no uso e são resolvidas na hora.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Ajuste fino das regras</b><p>O que a prática revelar volta pro sistema como regra.</p>
+            <div class="mais"><div><p>Regra nova, caso que não estava no mapa, exceção que se repete: o que a prática revelar volta para o sistema em dias, enquanto o acompanhamento está ativo.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>3 dashboards financeiros</b><p>Priorizados em conjunto com a diretoria, configuráveis sobre a base.</p>
+            <div class="mais"><div><p>Priorizamos com a diretoria as três visões que mais importam, como resultado por unidade, posição de caixa e folha do mês. Configuráveis sobre a base, sem depender de exportação.</p></div></div></div>
+          <div class="op exp" role="button" tabindex="0" aria-expanded="false"><b>Primeira visão de agente de IA</b><p>Perguntas em linguagem natural sobre a operação: plantões, pagamentos e exceções, respondidos direto da base.</p>
+            <div class="mais"><div><p>Quanto foi pago de adiantamento no mês, quais plantões ficaram em exceção, como fechou cada unidade: perguntado em linguagem natural, respondido direto da base. Primeira amostra da camada de inteligência do roadmap.</p></div></div></div>
         </div>
       </div>
+
+      <div class="next rv"><button data-next="roadmap"><span class="passo">CONTINUAR · ETAPA 3 DE 4</span>O roadmap →</button></div>
     </section>
 
   </div>
@@ -386,7 +440,7 @@
 
     <section class="b">
       <h2 class="rv">Como caminhamos juntos <span>· o método por trás do roadmap</span></h2>
-      <div class="fluxo">
+      <div class="fluxo" id="ciclo">
         <div class="chip">Entrega que entra em uso</div><div class="seta">→</div>
         <div class="chip">Uso real pela equipe</div><div class="seta">→</div>
         <div class="chip hot">Feedback de quem opera</div><div class="seta">→</div>
@@ -407,6 +461,7 @@
           <p>A Esfera triplicou em um ano e meio e vai continuar mudando. <b>Cada fase é dimensionada ao fim da anterior</b>, com o que a operação ensinou: o plano acompanha o negócio, não o contrário.</p>
         </div>
       </div>
+      <div class="next rv"><button data-next="investimento"><span class="passo">CONTINUAR · ETAPA 4 DE 4</span>O investimento →</button></div>
     </section>
 
   </div>
@@ -455,6 +510,7 @@
         Dentro dos 3 primeiros meses entregamos também o <b>detalhamento do roadmap</b> e um <b>protótipo navegável das próximas fases</b> (escala + app próprio · comercial + gestão de clientes). A decisão de continuar se toma vendo, não imaginando.
       </div>
       <div class="estimativa rv"><b>Sobre as fases seguintes:</b> os períodos são estimativas de planejamento. Cada fase é dimensionada e proposta ao final da anterior, com prazos e investimento definidos a partir do aprendizado real da operação.</div>
+      <div class="next rv"><button class="ghost" data-next="desafio"><span class="passo">JORNADA COMPLETA</span>Rever desde o início ↺</button></div>
     </section>
 
   </div>
@@ -499,6 +555,18 @@
   btns.forEach(function (b) {
     b.addEventListener('click', function () { activate(b.dataset.tab, true); });
   });
+  document.querySelectorAll('.next button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      activate(b.dataset.next, true);
+      if (!staticMode) observeAll();
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    });
+  });
+  document.querySelectorAll('.op.exp').forEach(function (op) {
+    function tg() { var o = op.classList.toggle('open'); op.setAttribute('aria-expanded', o); }
+    op.addEventListener('click', tg);
+    op.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); tg(); } });
+  });
   var hash = location.hash.replace('#', '');
   if (hash && document.getElementById(hash)) activate(hash, false);
   moveThumb();
@@ -520,6 +588,9 @@
       e.target.classList.add('on');
       io.unobserve(e.target);
       if (e.target.classList.contains('fluxo')) cascade(e.target);
+      if (e.target.classList.contains('onda')) stagger(e.target.querySelectorAll('.op'), 100);
+      if (e.target.querySelector('.plat')) stagger(e.target.querySelectorAll('.mod'), 60);
+      if (e.target.id === 'ciclo') setTimeout(startCiclo, 1500);
       e.target.querySelectorAll('[data-count]').forEach(countUp);
       if (e.target.hasAttribute('data-count')) countUp(e.target);
     });
@@ -530,6 +601,25 @@
     items.forEach(function (el, i) {
       el.style.transitionDelay = reduced ? '0s' : (i * 90) + 'ms';
     });
+    setTimeout(function () { items.forEach(function (el) { el.style.transitionDelay = '0s'; }); }, items.length * 90 + 700);
+  }
+
+  function stagger(els, step) {
+    els.forEach(function (el, i) { el.style.transitionDelay = reduced ? '0s' : (i * step) + 'ms'; });
+    setTimeout(function () { els.forEach(function (el) { el.style.transitionDelay = '0s'; }); }, els.length * step + 700);
+  }
+
+  var cicloTimer = null;
+  function startCiclo() {
+    if (cicloTimer || reduced) return;
+    var chips = document.querySelectorAll('#ciclo .chip');
+    if (!chips.length) return;
+    var i = 0;
+    cicloTimer = setInterval(function () {
+      chips.forEach(function (c) { c.classList.remove('viva'); });
+      chips[i].classList.add('viva');
+      i = (i + 1) % chips.length;
+    }, 1600);
   }
 
   function observeAll() {
@@ -556,7 +646,7 @@
     requestAnimationFrame(frame);
   }
 
-  document.querySelectorAll('.teses, .ops, .split').forEach(function (grid) {
+  document.querySelectorAll('.teses, .split').forEach(function (grid) {
     Array.prototype.forEach.call(grid.children, function (el, i) {
       el.style.transitionDelay = reduced ? '0s' : (i * 110) + 'ms';
     });
